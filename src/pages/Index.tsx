@@ -360,28 +360,7 @@ const Index = () => {
           </div>
         )}
 
-        <Card className="shadow-xl border-blue-200 bg-blue-50/50">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-blue-900">
-              <Icon name="Code" size={24} />
-              Код для вставки на Tilda
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm overflow-x-auto">
-              <code>
-                {`<iframe src="${window.location.href}" 
-  width="100%" 
-  height="1200" 
-  frameborder="0">
-</iframe>`}
-              </code>
-            </div>
-            <p className="text-sm text-gray-600 mt-4">
-              Скопируйте этот код и вставьте его в блок HTML на вашем сайте Tilda
-            </p>
-          </CardContent>
-        </Card>
+
       </div>
     </div>
   );
