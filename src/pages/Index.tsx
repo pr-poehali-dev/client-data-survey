@@ -137,31 +137,31 @@ const Index = () => {
   const statusConfig = getStatusConfig(status);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 py-12 px-4">
-      <div className="max-w-4xl mx-auto space-y-8 animate-fade-in">
+    <div className="min-h-screen bg-white py-6 md:py-12 px-4">
+      <div className="max-w-4xl mx-auto space-y-6 md:space-y-8 animate-fade-in">
         
-        <div className="text-center space-y-4">
-          <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+        <div className="text-center space-y-3 md:space-y-4">
+          <h1 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
             Подать заявку
           </h1>
-          <p className="text-gray-600 text-lg">
+          <p className="text-gray-600 text-base md:text-lg">
             Заполните форму и мы рассмотрим вашу заявку за 2 минуты
           </p>
         </div>
 
         {!applicationSubmitted ? (
-          <Card className="shadow-2xl border-none animate-scale-in overflow-hidden">
-            <div className="relative bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 p-8 text-white">
+          <Card className="shadow-xl md:shadow-2xl border-none animate-scale-in overflow-hidden">
+            <div className="relative bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 p-6 md:p-8 text-white">
               <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
               <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -ml-32 -mb-32"></div>
               <div className="relative z-10">
-                <CardTitle className="text-3xl mb-2 font-bold">Анкета клиента</CardTitle>
-                <CardDescription className="text-blue-50 text-base">
+                <CardTitle className="text-2xl md:text-3xl mb-2 font-bold">Анкета клиента</CardTitle>
+                <CardDescription className="text-blue-50 text-sm md:text-base">
                   Заполните все поля для подачи заявки
                 </CardDescription>
               </div>
             </div>
-            <CardContent className="p-8 bg-gradient-to-b from-white to-gray-50">
+            <CardContent className="p-6 md:p-8 bg-white">
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-3 group">
                   <Label htmlFor="fullName" className="text-base font-semibold text-gray-700 flex items-center gap-2">
@@ -224,66 +224,96 @@ const Index = () => {
 
                 <Button 
                   type="submit" 
-                  className="w-full h-16 text-lg font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-[1.02] hover:shadow-2xl rounded-xl shadow-lg"
+                  className="w-full h-14 md:h-16 text-base md:text-lg font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-[1.02] hover:shadow-2xl rounded-xl shadow-lg"
                 >
-                  <Icon name="Send" className="mr-2" size={20} />
+                  <Icon name="Send" className="mr-2" size={18} />
                   Отправить заявку
                 </Button>
               </form>
             </CardContent>
           </Card>
         ) : (
-          <div className="space-y-6">
+          <div className="space-y-4 md:space-y-6">
             
-            <Card className="shadow-2xl border-none animate-scale-in bg-white/80 backdrop-blur">
-              <CardHeader className="pb-4">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-2xl">Время рассмотрения</CardTitle>
+            {(status === 'approved' || status === 'rejected') && (
+              <Card className={`shadow-xl border-none animate-scale-in ${
+                status === 'approved' 
+                  ? 'bg-gradient-to-br from-green-500 to-emerald-600' 
+                  : 'bg-gradient-to-br from-red-500 to-rose-600'
+              } text-white overflow-hidden`}>
+                <CardContent className="p-6 md:p-8">
+                  <div className="flex flex-col items-center text-center space-y-4">
+                    <div className="rounded-full bg-white/20 p-6 backdrop-blur">
+                      <Icon 
+                        name={status === 'approved' ? 'CheckCircle2' : 'XCircle'} 
+                        size={64} 
+                        className="text-white"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <h2 className="text-3xl md:text-4xl font-bold">
+                        {status === 'approved' ? 'Ваша заявка принята!' : 'У вас отказ'}
+                      </h2>
+                      <p className="text-lg md:text-xl text-white/90">
+                        {status === 'approved' 
+                          ? 'Поздравляем! Мы свяжемся с вами в ближайшее время' 
+                          : 'К сожалению, мы не можем одобрить вашу заявку в данный момент'}
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            <Card className="shadow-xl md:shadow-2xl border-none animate-scale-in bg-white">
+              <CardHeader className="pb-3 md:pb-4">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                  <CardTitle className="text-xl md:text-2xl">Время рассмотрения</CardTitle>
                   <Badge 
                     variant="outline" 
-                    className={`${statusConfig.bgColor} ${statusConfig.textColor} border-none px-4 py-2 text-lg animate-pulse-glow`}
+                    className={`${statusConfig.bgColor} ${statusConfig.textColor} border-none px-3 md:px-4 py-1.5 md:py-2 text-base md:text-lg animate-pulse-glow self-start md:self-auto`}
                   >
-                    <Icon name={statusConfig.icon as any} className="mr-2" size={20} />
+                    <Icon name={statusConfig.icon as any} className="mr-2" size={16} />
                     {statusConfig.label}
                   </Badge>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-6">
+              <CardContent className="space-y-4 md:space-y-6">
                 <div className="flex items-center justify-center">
                   <div className="relative">
-                    <div className={`text-7xl font-bold ${statusConfig.textColor} tabular-nums`}>
+                    <div className={`text-5xl md:text-7xl font-bold ${statusConfig.textColor} tabular-nums`}>
                       {formatTime(timeLeft)}
                     </div>
-                    <div className="text-center text-gray-500 mt-2">
+                    <div className="text-center text-gray-500 mt-2 text-sm md:text-base">
                       {timeLeft > 0 ? 'осталось' : 'завершено'}
                     </div>
                   </div>
                 </div>
 
-                <Progress value={progress} className="h-3" />
+                <Progress value={progress} className="h-2 md:h-3" />
 
-                <div className="text-center text-sm text-gray-500">
+                <div className="text-center text-xs md:text-sm text-gray-500">
                   Прогресс: {Math.round(progress)}%
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="shadow-2xl border-none bg-white/80 backdrop-blur">
+            <Card className="shadow-xl md:shadow-2xl border-none bg-white">
               <CardHeader>
-                <CardTitle className="text-2xl">Статус заявки</CardTitle>
+                <CardTitle className="text-xl md:text-2xl">Статус заявки</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="flex items-center justify-between gap-4">
+                <div className="flex items-center justify-between gap-2 md:gap-4">
                   
-                  <div className={`flex flex-col items-center gap-2 flex-1 ${
+                  <div className={`flex flex-col items-center gap-1.5 md:gap-2 flex-1 ${
                     status === 'pending' ? 'opacity-100' : 'opacity-40'
                   } transition-opacity`}>
-                    <div className={`rounded-full p-4 ${
+                    <div className={`rounded-full p-2 md:p-4 ${
                       status === 'pending' ? 'bg-blue-500 animate-pulse-glow' : 'bg-gray-300'
                     }`}>
-                      <Icon name="Clock" className="text-white" size={32} />
+                      <Icon name="Clock" className="text-white" size={20} />
                     </div>
-                    <span className="font-semibold text-center">Получена</span>
+                    <span className="font-semibold text-center text-xs md:text-base">Получена</span>
                   </div>
 
                   <div className="h-1 flex-1 bg-gray-200 rounded">
@@ -294,15 +324,15 @@ const Index = () => {
                     />
                   </div>
 
-                  <div className={`flex flex-col items-center gap-2 flex-1 ${
+                  <div className={`flex flex-col items-center gap-1.5 md:gap-2 flex-1 ${
                     status === 'processing' ? 'opacity-100' : 'opacity-40'
                   } transition-opacity`}>
-                    <div className={`rounded-full p-4 ${
+                    <div className={`rounded-full p-2 md:p-4 ${
                       status === 'processing' ? 'bg-purple-500 animate-pulse-glow' : 'bg-gray-300'
                     }`}>
-                      <Icon name="RefreshCw" className={`text-white ${status === 'processing' ? 'animate-spin' : ''}`} size={32} />
+                      <Icon name="RefreshCw" className={`text-white ${status === 'processing' ? 'animate-spin' : ''}`} size={20} />
                     </div>
-                    <span className="font-semibold text-center">Обработка</span>
+                    <span className="font-semibold text-center text-xs md:text-base">Обработка</span>
                   </div>
 
                   <div className="h-1 flex-1 bg-gray-200 rounded">
@@ -313,10 +343,10 @@ const Index = () => {
                     />
                   </div>
 
-                  <div className={`flex flex-col items-center gap-2 flex-1 ${
+                  <div className={`flex flex-col items-center gap-1.5 md:gap-2 flex-1 ${
                     status === 'approved' || status === 'rejected' ? 'opacity-100' : 'opacity-40'
                   } transition-opacity`}>
-                    <div className={`rounded-full p-4 ${
+                    <div className={`rounded-full p-2 md:p-4 ${
                       status === 'approved' 
                         ? 'bg-green-500 animate-pulse-glow' 
                         : status === 'rejected' 
@@ -326,10 +356,10 @@ const Index = () => {
                       <Icon 
                         name={status === 'rejected' ? 'XCircle' : 'CheckCircle'} 
                         className="text-white" 
-                        size={32} 
+                        size={20} 
                       />
                     </div>
-                    <span className="font-semibold text-center">
+                    <span className="font-semibold text-center text-xs md:text-base">
                       {status === 'rejected' ? 'Отклонена' : 'Одобрена'}
                     </span>
                   </div>
@@ -337,13 +367,13 @@ const Index = () => {
               </CardContent>
             </Card>
 
-            <Card className="shadow-2xl border-none bg-gradient-to-br from-blue-500 to-purple-500 text-white">
-              <CardContent className="p-8">
-                <div className="flex items-start gap-4">
-                  <Icon name="Bell" size={32} className="flex-shrink-0 mt-1" />
+            <Card className="shadow-xl md:shadow-2xl border-none bg-gradient-to-br from-blue-500 to-purple-500 text-white">
+              <CardContent className="p-6 md:p-8">
+                <div className="flex items-start gap-3 md:gap-4">
+                  <Icon name="Bell" size={24} className="flex-shrink-0 mt-1" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2">Уведомления</h3>
-                    <p className="text-blue-50">
+                    <h3 className="text-lg md:text-xl font-bold mb-1 md:mb-2">Уведомления</h3>
+                    <p className="text-sm md:text-base text-blue-50">
                       Мы отправим вам уведомление на email и SMS при изменении статуса вашей заявки
                     </p>
                   </div>
@@ -361,7 +391,7 @@ const Index = () => {
                   setFormData({ fullName: '', email: '', phone: '', amount: '' });
                 }}
                 variant="outline"
-                className="w-full h-12 text-lg font-semibold"
+                className="w-full h-12 md:h-14 text-base md:text-lg font-semibold border-2 hover:bg-gray-50"
               >
                 Подать новую заявку
               </Button>
