@@ -235,26 +235,26 @@ const Index = () => {
         ) : (
           <div className="space-y-4 md:space-y-6">
             
-            {(status === 'approved' || status === 'rejected') && (
+            {(status === 'approved' || status === 'rejected') ? (
               <Card className={`shadow-xl border-none animate-scale-in ${
                 status === 'approved' 
                   ? 'bg-gradient-to-br from-green-500 to-emerald-600' 
                   : 'bg-gradient-to-br from-red-500 to-rose-600'
               } text-white overflow-hidden`}>
-                <CardContent className="p-6 md:p-8">
-                  <div className="flex flex-col items-center text-center space-y-4">
-                    <div className="rounded-full bg-white/20 p-6 backdrop-blur">
+                <CardContent className="p-8 md:p-12">
+                  <div className="flex flex-col items-center text-center space-y-6">
+                    <div className="rounded-full bg-white/20 p-8 backdrop-blur">
                       <Icon 
                         name={status === 'approved' ? 'CheckCircle2' : 'XCircle'} 
-                        size={64} 
+                        size={80} 
                         className="text-white"
                       />
                     </div>
-                    <div className="space-y-2">
-                      <h2 className="text-3xl md:text-4xl font-bold">
+                    <div className="space-y-3">
+                      <h2 className="text-4xl md:text-5xl font-bold">
                         {status === 'approved' ? 'Ваша заявка принята!' : 'У вас отказ'}
                       </h2>
-                      <p className="text-lg md:text-xl text-white/90">
+                      <p className="text-xl md:text-2xl text-white/90">
                         {status === 'approved' 
                           ? 'Поздравляем! Мы свяжемся с вами в ближайшее время' 
                           : 'К сожалению, мы не можем одобрить вашу заявку в данный момент'}
@@ -263,9 +263,9 @@ const Index = () => {
                   </div>
                 </CardContent>
               </Card>
-            )}
-
-            <Card className="shadow-xl md:shadow-2xl border-none animate-scale-in bg-white">
+            ) : (
+              <>
+                <Card className="shadow-xl md:shadow-2xl border-none animate-scale-in bg-white">
               <CardHeader className="pb-3 md:pb-4">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                   <CardTitle className="text-xl md:text-2xl">Время рассмотрения</CardTitle>
@@ -380,21 +380,7 @@ const Index = () => {
                 </div>
               </CardContent>
             </Card>
-
-            {(status === 'approved' || status === 'rejected') && (
-              <Button
-                onClick={() => {
-                  setApplicationSubmitted(false);
-                  setTimeLeft(120);
-                  setProgress(0);
-                  setStatus('pending');
-                  setFormData({ fullName: '', email: '', phone: '', amount: '' });
-                }}
-                variant="outline"
-                className="w-full h-12 md:h-14 text-base md:text-lg font-semibold border-2 hover:bg-gray-50"
-              >
-                Подать новую заявку
-              </Button>
+              </>
             )}
           </div>
         )}
