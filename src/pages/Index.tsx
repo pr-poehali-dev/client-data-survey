@@ -137,8 +137,8 @@ const Index = () => {
   const statusConfig = getStatusConfig(status);
 
   return (
-    <div className="min-h-screen bg-white py-6 md:py-12 px-4">
-      <div className="max-w-4xl mx-auto space-y-6 md:space-y-8 animate-fade-in">
+    <div className="min-h-screen bg-white py-4 md:py-8 px-4 pb-6 md:pb-8">
+      <div className="max-w-4xl mx-auto space-y-4 md:space-y-6 animate-fade-in">
         
         <div className="text-center space-y-3 md:space-y-4">
           <h1 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
