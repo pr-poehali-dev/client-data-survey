@@ -26,7 +26,7 @@ const Index = () => {
   });
   
   const [status, setStatus] = useState<ApplicationStatus>('pending');
-  const [timeLeft, setTimeLeft] = useState(900);
+  const [timeLeft, setTimeLeft] = useState(120);
   const [applicationSubmitted, setApplicationSubmitted] = useState(false);
   const [progress, setProgress] = useState(0);
 
@@ -49,19 +49,19 @@ const Index = () => {
   useEffect(() => {
     if (!applicationSubmitted) return;
 
-    const totalTime = 900;
+    const totalTime = 120;
     const elapsed = totalTime - timeLeft;
     const progressPercent = (elapsed / totalTime) * 100;
     setProgress(progressPercent);
 
-    if (timeLeft <= 660 && status === 'pending') {
+    if (timeLeft <= 80 && status === 'pending') {
       setStatus('processing');
       toast.info('Ваша заявка обрабатывается', {
         description: 'Мы проверяем ваши данные'
       });
     }
 
-    if (timeLeft <= 180 && status === 'processing') {
+    if (timeLeft <= 30 && status === 'processing') {
       const isApproved = Math.random() > 0.3;
       setStatus(isApproved ? 'approved' : 'rejected');
       
@@ -145,22 +145,27 @@ const Index = () => {
             Подать заявку
           </h1>
           <p className="text-gray-600 text-lg">
-            Заполните форму и мы рассмотрим вашу заявку за 12-15 минут
+            Заполните форму и мы рассмотрим вашу заявку за 2 минуты
           </p>
         </div>
 
         {!applicationSubmitted ? (
-          <Card className="shadow-2xl border-none animate-scale-in">
-            <CardHeader className="bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-t-lg">
-              <CardTitle className="text-2xl">Анкета клиента</CardTitle>
-              <CardDescription className="text-blue-50">
-                Заполните все поля для подачи заявки
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="p-8">
+          <Card className="shadow-2xl border-none animate-scale-in overflow-hidden">
+            <div className="relative bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 p-8 text-white">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -ml-32 -mb-32"></div>
+              <div className="relative z-10">
+                <CardTitle className="text-3xl mb-2 font-bold">Анкета клиента</CardTitle>
+                <CardDescription className="text-blue-50 text-base">
+                  Заполните все поля для подачи заявки
+                </CardDescription>
+              </div>
+            </div>
+            <CardContent className="p-8 bg-gradient-to-b from-white to-gray-50">
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="space-y-2">
-                  <Label htmlFor="fullName" className="text-lg font-semibold">
+                <div className="space-y-3 group">
+                  <Label htmlFor="fullName" className="text-base font-semibold text-gray-700 flex items-center gap-2">
+                    <Icon name="User" size={18} className="text-blue-500" />
                     ФИО
                   </Label>
                   <Input
@@ -168,12 +173,13 @@ const Index = () => {
                     placeholder="Иванов Иван Иванович"
                     value={formData.fullName}
                     onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                    className="h-12 text-lg"
+                    className="h-14 text-base border-2 border-gray-200 focus:border-blue-500 rounded-xl transition-all duration-200 hover:border-blue-300"
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="email" className="text-lg font-semibold">
+                <div className="space-y-3 group">
+                  <Label htmlFor="email" className="text-base font-semibold text-gray-700 flex items-center gap-2">
+                    <Icon name="Mail" size={18} className="text-purple-500" />
                     Email
                   </Label>
                   <Input
@@ -182,12 +188,13 @@ const Index = () => {
                     placeholder="ivan@example.com"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="h-12 text-lg"
+                    className="h-14 text-base border-2 border-gray-200 focus:border-purple-500 rounded-xl transition-all duration-200 hover:border-purple-300"
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="phone" className="text-lg font-semibold">
+                <div className="space-y-3 group">
+                  <Label htmlFor="phone" className="text-base font-semibold text-gray-700 flex items-center gap-2">
+                    <Icon name="Phone" size={18} className="text-pink-500" />
                     Телефон
                   </Label>
                   <Input
@@ -196,12 +203,13 @@ const Index = () => {
                     placeholder="+7 (999) 123-45-67"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="h-12 text-lg"
+                    className="h-14 text-base border-2 border-gray-200 focus:border-pink-500 rounded-xl transition-all duration-200 hover:border-pink-300"
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="amount" className="text-lg font-semibold">
+                <div className="space-y-3 group">
+                  <Label htmlFor="amount" className="text-base font-semibold text-gray-700 flex items-center gap-2">
+                    <Icon name="DollarSign" size={18} className="text-green-500" />
                     Сумма заявки
                   </Label>
                   <Input
@@ -210,14 +218,15 @@ const Index = () => {
                     placeholder="100 000 ₽"
                     value={formData.amount}
                     onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
-                    className="h-12 text-lg"
+                    className="h-14 text-base border-2 border-gray-200 focus:border-green-500 rounded-xl transition-all duration-200 hover:border-green-300"
                   />
                 </div>
 
                 <Button 
                   type="submit" 
-                  className="w-full h-14 text-lg font-semibold bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 transition-all duration-300 transform hover:scale-105"
+                  className="w-full h-16 text-lg font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-[1.02] hover:shadow-2xl rounded-xl shadow-lg"
                 >
+                  <Icon name="Send" className="mr-2" size={20} />
                   Отправить заявку
                 </Button>
               </form>
@@ -346,7 +355,7 @@ const Index = () => {
               <Button
                 onClick={() => {
                   setApplicationSubmitted(false);
-                  setTimeLeft(900);
+                  setTimeLeft(120);
                   setProgress(0);
                   setStatus('pending');
                   setFormData({ fullName: '', email: '', phone: '', amount: '' });
